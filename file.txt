@@ -1,9 +1,34 @@
 =begin
-comment
+CITY AND COUNRY
 =cut
 set city_code = 101
 begin
-  name := [[New York]];
-  population := 8000000;
+  city_name := [[Tokyo]];
+  population := 14000000;
+  country := [[Japan]];
 end
-$(+ city_code 1)
+$(+ city_code 1)  # Ожидаем city_code + 1
+
+
+=begin
+User configuration
+=cut
+set max_files = 500
+begin
+  username := [[alice]];
+  email := [[alice@example.com]];
+  age := 30;
+end
+$(max max_files 1000 1500)  # Ожидаем 1500
+
+
+=begin
+Car configuration
+=cut
+set horsepower = 300
+begin
+  model := [[Tesla Model S]];
+  range := 600;  # в км
+  year := 2023;
+end
+$(+ horsepower 50)  # Ожидаем horsepower + 50

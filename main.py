@@ -39,11 +39,23 @@ def parse_file(filepath):
 
 
 def evaluate_expression(expr, config):
+    # Убираем символы `$(` и `)` для получения токенов
     tokens = expr.strip("$()").split()
-    if tokens[0] == '+':
-        return config.get(tokens[1], 0) + int(tokens[2])  # Пример сложения
+    operation = tokens[0]
 
-    return None
+    if operation == '+':
+        return config.get(tokens[1], 0) + int(tokens[2])
+    elif operation == '-':
+        return config.get(tokens[1], 0) - int(tokens[2])
+    elif operation == '*':
+        return config.get(tokens[1], 0) * int(tokens[2])
+    elif operation == 'max':
+
+        values = [config.get(token, int(token)) for token in tokens[1:]]
+        return max(values)
+
+    return None 
+
     
 def to_toml(config):
     toml_str = ""
