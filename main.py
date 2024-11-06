@@ -17,26 +17,33 @@ def parse_file(filepath):
     try:
         with open(filepath, 'r') as file:
             content = file.read()
-            print("File content:", content)  
-            
             content = re.sub(f"{COMMENT_START}.*?{COMMENT_END}", "", content, flags=re.DOTALL)
             for line in content.splitlines():
                 print("Processing line:", line)  
                 
                 if match := re.match(SET_CONST, line):
                     name, value = match.groups()
-                    config[name] = value 
-                    print("Set value:", name, "=", value) 
+                    config[name] = int(value) if value.isdigit() else value  
+                    print("Set value:", name, "=", config[name])
+                
+                elif line.startswith("$("):
+                    result = evaluate_expression(line, config)  
+                    print("Expression result:", line, "=", result)
+                    config["city_code_next"] = result  
+
     except FileNotFoundError:
         print("File not found:", filepath)
     
     return config
 
 
+
 def evaluate_expression(expr, config):
-    tokens = expr.split()
+    tokens = expr.strip("$()").split()
     if tokens[0] == '+':
-        return int(config.get(tokens[1], tokens[1])) + int(tokens[2])
+        return config.get(tokens[1], 0) + int(tokens[2])  # Пример сложения
+
+    return None
     
 def to_toml(config):
     toml_str = ""
