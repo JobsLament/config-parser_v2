@@ -1,0 +1,9 @@
+=begin
+comment
+=cut
+set city_code = 101
+begin
+  name := [[New York]];
+  population := 8000000;
+end
+$(+ city_code 1)
